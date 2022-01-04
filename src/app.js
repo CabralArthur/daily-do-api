@@ -1,16 +1,16 @@
 import cors from 'cors';
 import http from 'http';
-import helmet from 'helmet'
+import helmet from 'helmet';
 import dotenv from 'dotenv';
 import express from 'express';
 
 class App {
 	constructor() {
-        dotenv.config({ path: `${__dirname}/../.env` });
+		dotenv.config({ path: `${__dirname}/../.env` });
 
 		this.app = express();
 		this.port = process.env.PORT || 3000;
-        this.httpServer = http.createServer(this.app);
+		this.httpServer = http.createServer(this.app);
 	}
 
 	setup() {
@@ -20,7 +20,7 @@ class App {
 		this.app.use(helmet());
 	}
 
-    gracefulStop() {
+	gracefulStop() {
 		return () => {
 			this.httpServer.close(error => {
 				return error ? process.exit(1) : process.exit(0);
@@ -29,9 +29,9 @@ class App {
 	}
 
 	start() {
-        this.httpServer.listen(this.port, () => this.setup());
+		this.httpServer.listen(this.port, () => this.setup());
 
-        process.on('SIGINT', this.gracefulStop());
+		process.on('SIGINT', this.gracefulStop());
 	}
 }
 
