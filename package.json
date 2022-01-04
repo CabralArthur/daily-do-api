@@ -1,0 +1,39 @@
+{
+  "name": "daily-do-api",
+  "version": "1.0.0",
+  "description": "DailyDoAPI - API under development to provide tools for daily user management",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node index.js",
+    "start:dev": "NODE_ENV=development nodemon --delay 500ms --inspect --exec babel-node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CabralArthur/DailyNodeJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CabralArthur/DailyNodeJS/issues"
+  },
+  "homepage": "https://github.com/CabralArthur/DailyNodeJS#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "helmet": "^5.0.1",
+    "http": "0.0.1-security"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.7",
+    "@babel/core": "^7.16.7",
+    "@babel/node": "7.10.5",
+    "@babel/preset-env": "^7.16.7",
+    "@babel/register": "7.11.5",
+    "nodemon": "^2.0.15"
+  }
+}
