@@ -70,6 +70,10 @@ class Logger {
 	static success() {
 		console.info(chalk.green(...arguments));
 	}
+
+	static message() {
+		console.info(chalk.blue(...arguments));
+	}
 }
 
 export default Logger;

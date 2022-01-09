@@ -4,7 +4,9 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import express from 'express';
 
+import Database from './databases';
 import Logger from './utils/logger';
+
 class App {
 	constructor() {
 		dotenv.config({ path: `${__dirname}/../.env` });
@@ -14,6 +16,7 @@ class App {
 		this.httpServer = http.createServer(this.app);
 
 		this.logger = new Logger();
+		this.database = new Database();
 	}
 
 	setup() {
@@ -32,6 +35,8 @@ class App {
 	}
 
 	start() {
+		this.database.connect()
+
 		this.httpServer.listen(this.port, () => {
 			Logger.success(`Server running port ${this.port}`);
 			this.setup();
