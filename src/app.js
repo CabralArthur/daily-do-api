@@ -19,7 +19,9 @@ class App {
 		this.database = new Database();
 	}
 
-	setup() {
+	async setup() {
+		await this.database.connect();
+
 		this.app.use(express.json({ limit: '100000kb' }));
 		this.app.use(express.urlencoded({ extended: false, limit: '100000kb' }));
 		this.app.use(cors());
@@ -28,15 +30,15 @@ class App {
 
 	gracefulStop() {
 		return () => {
-			this.httpServer.close(error => {
+			this.httpServer.close(async error => {
+				await this.database.disconnect();
+				
 				return error ? process.exit(1) : process.exit(0);
 			});
 		};
 	}
 
 	start() {
-		this.database.connect()
-
 		this.httpServer.listen(this.port, () => {
 			Logger.success(`Server running port ${this.port}`);
 			this.setup();
