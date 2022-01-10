@@ -35,7 +35,7 @@ class Database {
 		);
 	}
 
-    loadModels() {
+    _loadModels() {
 		fs.readdirSync(`${__dirname}/models`, { withFileTypes: true })
         .filter(entry => fs.statSync(`${__dirname}/models/${entry.name}`).isFile())
         .map(entry => `${__dirname}/models/${entry.name}`)
@@ -75,7 +75,7 @@ class Database {
 	}
 
     connect() {
-        this.loadModels();
+        this._loadModels();
         this._instantiateModels();
 
         return this._authenticate();
