@@ -4,9 +4,9 @@ import Sequelize from 'sequelize';
 import Logger from './utils/logger';
 
 class Database {
-    constructor() {
-        this.models= {};
-        this.databaseOptions = {
+	constructor() {
+		this.models = {};
+		this.databaseOptions = {
 			dialect: 'postgres',
 			port: process.env.DB_PORT || 5432,
 			logging: false,
@@ -21,9 +21,9 @@ class Database {
 		};
 
 		this.masterInstance = this._masterInstance();
-    }
+	}
 
-    _masterInstance() {
+	_masterInstance() {
 		return new Sequelize(
 			process.env.DB_NAME,
 			process.env.DB_USER,
@@ -35,51 +35,51 @@ class Database {
 		);
 	}
 
-    _loadModels() {
+	_loadModels() {
 		fs.readdirSync(`${__dirname}/models`, { withFileTypes: true })
-        .filter(entry => fs.statSync(`${__dirname}/models/${entry.name}`).isFile())
-        .map(entry => `${__dirname}/models/${entry.name}`)
-        .forEach(filePath => {
-            const Model = require(filePath).default;
+			.filter(entry => fs.statSync(`${__dirname}/models/${entry.name}`).isFile())
+			.map(entry => `${__dirname}/models/${entry.name}`)
+			.forEach(filePath => {
+				const Model = require(filePath).default;
 
-            if (Model.name === 'BaseModel') {
-                return;
-            }
+				if (Model.name === 'BaseModel') {
+					return;
+				}
 
-            const masterInstance = Model.load(this.masterInstance, Sequelize);
+				const masterInstance = Model.load(this.masterInstance, Sequelize);
 
-            this.models[Model.name] = masterInstance;
-        })
-    }
-
-    _instantiateModels() {
-		Object.values(this.models)
-        .filter(model => typeof model.associate === 'function')
-        .forEach(model => {
-            model.models = this.models;
-            model.sequelize = this.masterInstance;
-            model.associate(this.models);
-        });
+				this.models[Model.name] = masterInstance;
+			})
 	}
 
-    _authenticate() {
+	_instantiateModels() {
+		Object.values(this.models)
+			.filter(model => typeof model.associate === 'function')
+			.forEach(model => {
+				model.models = this.models;
+				model.sequelize = this.masterInstance;
+				model.associate(this.models);
+			});
+	}
+
+	_authenticate() {
 		return this.masterInstance.authenticate()
 			.then(() => Logger.success('Database is connected.'))
 			.catch(error => Logger.error(`Database connection error: ${error}`));
 	}
 
-    disconnect() {
+	disconnect() {
 		return this.masterInstance.close()
 			.then(() => Logger.success('Database is disconnected.'))
 			.catch(error => Logger.error(`Database disconnection error: ${error}`));
 	}
 
-    connect() {
-        this._loadModels();
-        this._instantiateModels();
+	connect() {
+		this._loadModels();
+		this._instantiateModels();
 
-        return this._authenticate();
-    }
+		return this._authenticate();
+	}
 }
 
-export default Database
+export default Database;

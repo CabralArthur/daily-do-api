@@ -32,7 +32,7 @@ class App {
 		return () => {
 			this.httpServer.close(async error => {
 				await this.database.disconnect();
-				
+
 				return error ? process.exit(1) : process.exit(0);
 			});
 		};
