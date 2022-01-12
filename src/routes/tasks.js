@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import TaskController from '../controllers/task';
 
-class AttendanceRoutes {
+class TaskRoutes {
 	constructor() {
 		this.router = new Router();
 
@@ -15,4 +15,4 @@ class AttendanceRoutes {
 	}
 }
 
-export default AttendanceRoutes;
+export default TaskRoutes;
