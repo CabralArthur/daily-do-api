@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import express from 'express';
 
+import Routes from './routes';
 import Database from './databases';
 import Logger from './utils/logger';
 
@@ -22,10 +23,25 @@ class App {
 	async setup() {
 		await this.database.connect();
 
+		const routes = new Routes();
+
 		this.app.use(express.json({ limit: '100000kb' }));
 		this.app.use(express.urlencoded({ extended: false, limit: '100000kb' }));
 		this.app.use(cors());
 		this.app.use(helmet());
+
+		this.app.use(routes.setup());
+		this.app.use((error, req, res, next) => {
+			if (error) {
+				res.status(500).json({
+					status: 'error',
+					message: 'Algo de errado aconteceu'
+				});
+				return;
+			}
+
+			next();
+		});
 	}
 
 	gracefulStop() {

@@ -49,7 +49,7 @@ class Database {
 				const masterInstance = Model.load(this.masterInstance, Sequelize);
 
 				this.models[Model.name] = masterInstance;
-			})
+			});
 	}
 
 	_instantiateModels() {
