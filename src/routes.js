@@ -1,16 +1,15 @@
-
 import { Router } from 'express';
-import TaskRoutes from './routes/tasks';
+import UserRoutes from './routes/user';
 
 class Routes {
 	constructor() {
 		this.routes = new Router();
 
-		this.taskRoutes = new TaskRoutes();
+		this.userRoutes = new UserRoutes();
 	}
 
 	setup() {
-		this.routes.use('/tasks', this.taskRoutes.setup());
+		this.routes.use('/user', this.userRoutes.setup());
 
 		return this.routes;
 	}
