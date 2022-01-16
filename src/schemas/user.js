@@ -5,9 +5,8 @@ const schema = {
 	create: {
 		body: yup.object({
 			name: yup.string().transform(sanitizeValue).required().label('Nome'),
-			username: yup.string().transform(sanitizeValue).required().label('Nome de Usuário'),
-			is_admin: yup.boolean().required().label('Admin'),
 			password: yup.string().transform(sanitizeValue).required().label('Senha'),
+			username: yup.string().transform(sanitizeValue).required().label('Nome de Usuário'),
 			confirm_password: yup.string().transform(sanitizeValue).required().test('invalidFormat', 'As senhas não conferem', function(value) {
 				return this.resolve(yup.ref('password')) === value;
 			})

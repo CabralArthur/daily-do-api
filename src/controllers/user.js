@@ -73,7 +73,7 @@ class UserController extends BaseController {
 				name: req.data.name,
 				username: req.data.username,
 				password: req.data.password,
-				is_admin: req.data.is_admin
+				is_admin: false
 			};
 
 			const user = await this.service.create(data);
