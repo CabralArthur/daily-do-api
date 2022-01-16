@@ -4,7 +4,7 @@ import User from '../models/user';
 class UserService {
 	constructor() {
 		this.userModel = User.getInstance();
-		this.userModel = User.getInstance('replica');
+		this.userReadModel = User.getInstance('replica');
 	}
 
 	async create(user) {
@@ -23,6 +23,41 @@ class UserService {
 		return createdUser;
 	}
 
+	async update({ data, filter }) {
+		const userInfo = {
+			...data
+		};
+
+		if (data.new_password) {
+			userInfo.password = await bcrypt.hash(data.new_password, 8);
+		}
+
+		const updatedUser = await User.update(userInfo, {
+			where: { id: filter.id }
+		});
+
+		return updatedUser;
+	}
+
+	async delete(filter) {
+		const deletedUser = await this.userModel.destroy({
+			where: { id: filter.id }
+		});
+
+		return deletedUser;
+	}
+
+	find(user) {
+		return this.userReadModel.findAll({
+			where: {
+				id: user.id
+			}
+		});
+	}
+
+	list() {
+		return this.userReadModel.findAll();
+	}
 
 }
 

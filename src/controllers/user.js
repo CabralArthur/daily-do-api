@@ -6,7 +6,64 @@ class UserController extends BaseController {
 		super();
 
 		this.service = new UserService();
+		this.list = this.list.bind(this);
+		this.find = this.find.bind(this);
+		this.delete = this.delete.bind(this);
+		this.update = this.update.bind(this);
 		this.create = this.create.bind(this);
+	}
+
+	async list(req, res) {
+		try {
+			const users = await this.service.list();
+
+			this.successHandler(users, res);
+		} catch (error) {
+			this.errorHandler(error, req, res);
+		}
+	}
+
+	async find(req, res) {
+		try {
+			const filter = {
+				id: req.params.id
+			};
+
+			const user = await this.service.find(filter);
+
+			this.successHandler(user, res);
+		} catch (error) {
+			this.errorHandler(error, req, res);
+		}
+	}
+
+	async update(req, res) {
+		try {
+			const options = {
+				data: { ...req.data },
+				filter: { ...req.params }
+			};
+
+			const updatedUser = await this.service.update(options);
+
+			this.successHandler(updatedUser, res);
+		} catch (error) {
+			this.errorHandler(error, req, res);
+		}
+	}
+
+	async delete(req, res) {
+		try {
+			const filter = {
+				id: req.params.id
+			};
+
+			const updatedUser = await this.service.delete(filter);
+
+			this.successHandler(updatedUser, res);
+		} catch (error) {
+			this.errorHandler(error, req, res);
+		}
 	}
 
 	async create(req, res) {

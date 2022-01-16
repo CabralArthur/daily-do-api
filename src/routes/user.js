@@ -11,7 +11,11 @@ class UserRoutes {
 	}
 
 	setup() {
+		this.router.get('/', this.userController.list);
+		this.router.get('/:id', SchemaValidator.validate(UserSchema.find), this.userController.find);
 		this.router.post('/', SchemaValidator.validate(UserSchema.create), this.userController.create);
+		this.router.put('/:id', SchemaValidator.validate(UserSchema.update), this.userController.update);
+		this.router.delete('/:id', SchemaValidator.validate(UserSchema.delete), this.userController.delete);
 
 		return this.router;
 	}

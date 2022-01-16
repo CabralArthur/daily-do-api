@@ -8,11 +8,32 @@ const schema = {
 			username: yup.string().transform(sanitizeValue).required().label('Nome de Usuário'),
 			is_admin: yup.boolean().required().label('Admin'),
 			password: yup.string().transform(sanitizeValue).required().label('Senha'),
-			confirm_password: yup.string().transform(sanitizeValue).required()
+			confirm_password: yup.string().transform(sanitizeValue).required().test('invalidFormat', 'As senhas não conferem', function(value) {
+				return this.resolve(yup.ref('password')) === value;
+			})
 		}).noUnknown()
 	},
+	find: {
+		params: yup.object({
+			id: yup.number().required()
+		})
+	},
+	update: {
+		body: yup.object({
+			name: yup.string().transform(sanitizeValue).nullable().label('Nome'),
+			password: yup.string().transform(sanitizeValue).nullable().label('Senha'),
+			username: yup.string().transform(sanitizeValue).nullable().label('Nome de Usuário'),
+			new_password: yup.string().transform(sanitizeValue).nullable()
+		}).noUnknown()
+	}
 };
 
 export default {
-	create: schema.create
+	find: schema.find,
+	delete: schema.find,
+	create: schema.create,
+	update: {
+		params: schema.find.params,
+		body: schema.update.body
+	}
 };
