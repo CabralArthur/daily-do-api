@@ -24,7 +24,6 @@ export default class SchemaValidator {
 				});
 			}
 
-
 			req.data = pickBy(results.data, value => !isUndefined(value));
 			req.filter = pickBy(results.filter, value => !isUndefined(value));
 

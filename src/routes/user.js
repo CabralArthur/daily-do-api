@@ -1,13 +1,14 @@
 import { Router } from 'express';
 
 import UserSchema from '../schemas/user';
-import userController from '../controllers/user';
+import UserController from '../controllers/user';
 import SchemaValidator from '../utils/schema-validator';
+
 class UserRoutes {
 	constructor() {
 		this.router = new Router();
 
-		this.userController = new userController();
+		this.userController = new UserController();
 	}
 
 	setup() {
