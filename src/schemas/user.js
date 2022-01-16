@@ -16,7 +16,7 @@ const schema = {
 	find: {
 		params: yup.object({
 			id: yup.number().required().label('Id Do Usuário')
-		})
+		}).noUnknown()
 	},
 	update: {
 		body: yup.object({

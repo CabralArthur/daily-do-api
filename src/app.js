@@ -54,10 +54,10 @@ class App {
 		};
 	}
 
-	start() {
+	async start() {
+		await this.setup();
 		this.httpServer.listen(this.port, () => {
 			Logger.success(`Server running port ${this.port}`);
-			this.setup();
 		});
 
 		process.on('SIGINT', this.gracefulStop());
