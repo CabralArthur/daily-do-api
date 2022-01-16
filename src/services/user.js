@@ -32,7 +32,7 @@ class UserService {
 			userInfo.password = await bcrypt.hash(data.new_password, 8);
 		}
 
-		const updatedUser = await User.update(userInfo, {
+		const updatedUser = await this.userModel.update(userInfo, {
 			where: { id: filter.id }
 		});
 

@@ -1,24 +1,24 @@
 import BaseController from './base';
 import HttpStatus from 'http-status-codes';
-import UserService from '../services/user';
+import ColorService from '../services/color';
 
-class UserController extends BaseController {
+class ColorController extends BaseController {
 	constructor() {
 		super();
 
-		this.service = new UserService();
+		this.service = new ColorService();
 		this.list = this.list.bind(this);
 		this.find = this.find.bind(this);
+		this.create = this.create.bind(this);
 		this.delete = this.delete.bind(this);
 		this.update = this.update.bind(this);
-		this.create = this.create.bind(this);
 	}
 
 	async list(req, res) {
 		try {
-			const users = await this.service.list();
+			const colors = await this.service.list();
 
-			this.successHandler(users, res);
+			this.successHandler(colors, res);
 		} catch (error) {
 			this.errorHandler(error, req, res);
 		}
@@ -30,9 +30,9 @@ class UserController extends BaseController {
 				id: req.params.id
 			};
 
-			const user = await this.service.find(filter);
+			const color = await this.service.find(filter);
 
-			this.successHandler(user, res);
+			this.successHandler(color, res);
 		} catch (error) {
 			this.errorHandler(error, req, res);
 		}
@@ -45,9 +45,9 @@ class UserController extends BaseController {
 				filter: { ...req.params }
 			};
 
-			const updatedUser = await this.service.update(options);
+			const updatedColor = await this.service.update(options);
 
-			this.successHandler(updatedUser, res);
+			this.successHandler(updatedColor, res);
 		} catch (error) {
 			this.errorHandler(error, req, res);
 		}
@@ -59,9 +59,9 @@ class UserController extends BaseController {
 				id: req.params.id
 			};
 
-			const deletedUser = await this.service.delete(filter);
+			const deletedColor = await this.service.delete(filter);
 
-			this.successHandler(deletedUser, res);
+			this.successHandler(deletedColor, res);
 		} catch (error) {
 			this.errorHandler(error, req, res);
 		}
@@ -71,26 +71,24 @@ class UserController extends BaseController {
 		try {
 			const data = {
 				name: req.data.name,
-				username: req.data.username,
-				password: req.data.password,
-				is_admin: req.data.is_admin
+				hex_code: req.data.hex_code
 			};
 
-			const user = await this.service.create(data);
+			const color = await this.service.create(data);
 
-			if (!user) {
+			if (!color) {
 				res.status(HttpStatus.CONFLICT).json({
 					code: HttpStatus.CONFLICT,
-					message: 'Já existe um usuário cadastrado com esse nickname.'
+					message: 'Já existe uma cor cadastrada com esse código.'
 				});
 			}
 
-			res.status(HttpStatus.OK).json({ data: user });
+			res.status(HttpStatus.OK).json({ data: color });
 		} catch (error) {
 			this.errorHandler(error, req, res);
 		}
 	}
 }
 
-export default UserController;
+export default ColorController;
 

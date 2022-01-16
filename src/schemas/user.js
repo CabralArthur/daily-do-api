@@ -15,7 +15,7 @@ const schema = {
 	},
 	find: {
 		params: yup.object({
-			id: yup.number().required()
+			id: yup.number().required().label('Id Do Usuário')
 		})
 	},
 	update: {
@@ -33,7 +33,7 @@ export default {
 	delete: schema.find,
 	create: schema.create,
 	update: {
-		params: schema.find.params,
-		body: schema.update.body
+		body: schema.update.body,
+		params: schema.find.params
 	}
 };
