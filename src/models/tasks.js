@@ -1,18 +1,18 @@
 import BaseModel from './base';
 
 class Task extends BaseModel {
-    static load(sequelize) {
+	static load(sequelize) {
 		return super.init({}, {
-            paranoid: true,
-            timestamps: true,
+			paranoid: true,
+			timestamps: true,
 			sequelize: sequelize,
 			modelName: 'task',
 			tableName: 'tasks',
 			createdAt: 'created_at',
 			updatedAt: 'updated_at',
-            deletedAt: 'deleted_at',
-            scopes: {
-                defaultWhere: userId => {
+			deletedAt: 'deleted_at',
+			scopes: {
+				defaultWhere: userId => {
 					return {
 						paranoid: false,
 						where: {
@@ -21,11 +21,11 @@ class Task extends BaseModel {
 						}
 					};
 				}
-            }
+			}
 		});
 	}
 
-    static associate(models) {
+	static associate(models) {
 		this.belongsTo(models.user, { foreignKey: 'user_id' });
 	}
 }

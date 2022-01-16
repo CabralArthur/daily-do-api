@@ -21,6 +21,7 @@ class Database {
 		};
 
 		this.masterInstance = this._masterInstance();
+		this.replicaInstance = this._replicaInstance();
 	}
 
 	_masterInstance() {
@@ -30,6 +31,18 @@ class Database {
 			process.env.DB_PASSWORD,
 			{
 				host: process.env.DB_HOST,
+				...this.databaseOptions
+			}
+		);
+	}
+
+	_replicaInstance() {
+		return new Sequelize(
+			process.env.DB_NAME,
+			process.env.DB_USER,
+			process.env.DB_PASSWORD,
+			{
+				host: process.env.DB_REPLICA_HOST,
 				...this.databaseOptions
 			}
 		);
@@ -47,8 +60,12 @@ class Database {
 				}
 
 				const masterInstance = Model.load(this.masterInstance, Sequelize);
+				const replicaInstance = Model.load(this.replicaInstance, Sequelize);
 
 				this.models[Model.name] = masterInstance;
+
+				Model.setInstance('master', masterInstance);
+				Model.setInstance('replica', replicaInstance);
 			});
 	}
 
