@@ -4,7 +4,7 @@ import ColorSchema from '../schemas/color';
 import ColorController from '../controllers/color';
 import SchemaValidator from '../utils/schema-validator';
 
-class TaskRoutes {
+class ColorRoutes {
 	constructor() {
 		this.router = new Router();
 
@@ -22,4 +22,4 @@ class TaskRoutes {
 	}
 }
 
-export default TaskRoutes;
+export default ColorRoutes;

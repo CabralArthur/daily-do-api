@@ -48,10 +48,11 @@ class UserService {
 	}
 
 	find(user) {
-		return this.userReadModel.findAll({
+		return this.userReadModel.findOne({
 			where: {
 				id: user.id
-			}
+			},
+			attributes: ['id', 'name', 'username', 'is_admin']
 		});
 	}
 
