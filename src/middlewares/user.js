@@ -5,13 +5,12 @@ import User from '../models/user';
 
 export default async (req, res, next) => {
 	const userId = ~~(
-		req.params.user_id ||
-		req.query.user_id ||
-		req.body.user_id
+		req.params.id ||
+		req.query.id ||
+		req.body.id
 	);
 
 	const token = req.headers.authorization;
-
 	const data = ServerUtils.decodeToken(token);
 
 	if (data.id !== userId) {
