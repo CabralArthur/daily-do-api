@@ -15,8 +15,8 @@ class Routes {
 	}
 
 	setup() {
-		this.routes.use('/user', this.userRoutes.setup());
 		this.routes.use('/task', this.taskRoutes.setup());
+		this.routes.use('/user', this.userRoutes.setup());
 		this.routes.use('/color', this.colorRoutes.setup());
 		this.routes.use('/authenticate', this.authenticateRoutes.setup());
 

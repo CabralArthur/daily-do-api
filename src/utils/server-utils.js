@@ -11,6 +11,14 @@ class ServerUtils {
 			expires_at: moment().add(7, 'day')
 		}, process.env.SECRET_KEY);
 	}
+
+	static decodeToken(token) {
+		try {
+			return jwt.decode(token, process.env.SECRET_KEY);
+		} catch (err) {
+			return null;
+		}
+	}
 }
 
 export default ServerUtils;
