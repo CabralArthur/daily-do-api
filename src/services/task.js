@@ -9,7 +9,7 @@ class TaskService {
 	async find(filter) {
 		return await this.taskReadModel.findAll({
 			where: {
-				id: filter.id
+				user_id: filter.id
 			}
 		});
 	}
